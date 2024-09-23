@@ -104,7 +104,6 @@ function AdminArea() {
           <button onClick={() => AdminDelete(row._id)} className="btn bg-danger text-white" style={{ margin: '3px' }}>Delete</button>
         </>
       ),
-      button: true
     }
   ];
 

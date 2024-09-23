@@ -22,8 +22,8 @@ export default function IRTable() {
   }, []);
 
   const filteredItems = irdata.filter((item) =>
-  item.irvalue && item.irvalue.toString().toLowerCase().includes(searchText.toLowerCase())
-);
+    item.irvalue && item.irvalue.toString().toLowerCase().includes(searchText.toLowerCase())
+  );
 
 
   const handleSearch = (e) => {
@@ -34,63 +34,63 @@ export default function IRTable() {
   const columns = [
 
     {
-        name: 'SR NO',
-        selector: (row, index) => index + 1,
-        sortable: true
-      },
-   
+      name: 'SR NO',
+      selector: (row, index) => index + 1,
+      sortable: true
+    },
+
     {
       name: "IR Value",
       selector: row => row.irvalue,
       sortable: true
     },
     {
-        name: "Timestamp",
-        selector: row => new Date(row.entryTime).toLocaleString(),
-        sortable: true
+      name: "Timestamp",
+      selector: row => new Date(row.entryTime).toLocaleString(),
+      sortable: true
     }
   ];
 
   return (
     <>
-     <div id="wrapper" style={{backgroundImage: 'url("https://t3.ftcdn.net/jpg/05/69/26/10/360_F_569261029_71L0qkdQoIAhyiVt6z9yJoFP3CFhmlvX.jpg")', backgroundSize:'cover',backgroundAttachment:'fixed'}}>
-                <Sidebar />
-                <div id="content-wrapper" className="d-flex flex-column bg-transparent" >
-                    <div id="content">
-                        <Topbar />
+      <div id="wrapper" style={{ backgroundImage: 'url("https://t3.ftcdn.net/jpg/05/69/26/10/360_F_569261029_71L0qkdQoIAhyiVt6z9yJoFP3CFhmlvX.jpg")', backgroundSize: 'cover', backgroundAttachment: 'fixed' }}>
+        <Sidebar />
+        <div id="content-wrapper" className="d-flex flex-column bg-transparent" >
+          <div id="content">
+            <Topbar />
 
             <Container>
 
-    
-            <div className="container-fluid">
 
-           
+              <div className="container-fluid">
 
-            <div className="card shadow mb-4 bg-transparent border-1" style={{ border: "1px solid white" ,backdropFilter:'blur(3px)' }}>
-       
-                <div className="card-header py-3" style={{ border: "1px solid white" , backdropFilter:'blur(3px)' }}>
-                  <h6 className="m-0 font-weight-bold text-light">IR DATA</h6>
-                </div>
-                <div className="card-body bg-transparent">
-            
-                <div className="row">
-                  <div className="col-lg-2 d-flex align-content-center justify-content-end text-light">
-                    Search here
+
+
+                <div className="card shadow mb-4 bg-transparent border-1" style={{ border: "1px solid white", backdropFilter: 'blur(3px)' }}>
+
+                  <div className="card-header py-3" style={{ border: "1px solid white", backdropFilter: 'blur(3px)' }}>
+                    <h6 className="m-0 font-weight-bold text-light">IR DATA</h6>
+                  </div>
+                  <div className="card-body bg-transparent">
+
+                    <div className="row">
+                      <div className="col-lg-2 d-flex align-content-center justify-content-end text-light">
+                        Search here
+                      </div>
+                      <div className="col-lg-10">
+                        <input
+                          type="text"
+                          className="form-control bg-transparent"
+                          placeholder="Search..."
+                          value={searchText}
+                          onChange={handleSearch}
+                          style={{ width: '30%' }} />
+
+                      </div>
+
                     </div>
-                    <div className="col-lg-10">
-                    <input
-                        type="text"
-                        className="form-control bg-transparent"
-                        placeholder="Search..."
-                        value={searchText}
-                        onChange={handleSearch}
-                      style={{width:'30%'}} />
-                      
-                    </div>
-                
-                  </div> 
-                       <br/>
-                  {!isLoaded ? (
+                    <br />
+                    {!isLoaded ? (
                       <div>Loading...</div>
                     ) : (
                       <>
@@ -128,16 +128,16 @@ export default function IRTable() {
                     )}
                   </div>
 
-            
+
+                </div>
+                <hr style={{ width: "100%" }} />
               </div>
-              <hr style={{ width: "100%" }} />
-            </div>
-            <Footer />
+              <Footer />
             </Container>
           </div>
-         
+
         </div>
- 
+
 
       </div>
     </>

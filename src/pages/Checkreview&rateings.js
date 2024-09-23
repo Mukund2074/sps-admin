@@ -7,23 +7,23 @@ import axios from "axios";
 import ApiCall from "../ApiCall";
 
 export default function Checkreviewrateings() {
-    const [data, setData] = React.useState([]);
-    const [isLoaded, setIsLoaded] = React.useState(false);
+  const [data, setData] = React.useState([]);
+  const [isLoaded, setIsLoaded] = React.useState(false);
 
-    useEffect(() => {
-        ApiCall("GET", "admin/getfeedback")
-        .then((response) => {
-            setData(response.data.feedbacks); // Update data with response.data.feedbacks
-            setIsLoaded(true);
-            
-        })
-        .catch((error) => {
-            console.error('Error fetching feedback:', error);
-            setIsLoaded(true); // Set isLoaded to true even in case of error
-        });
-    }, []);
+  useEffect(() => {
+    ApiCall("GET", "admin/getfeedback")
+      .then((response) => {
+        setData(response.data.feedbacks); // Update data with response.data.feedbacks
+        setIsLoaded(true);
 
-    
+      })
+      .catch((error) => {
+        console.error('Error fetching feedback:', error);
+        setIsLoaded(true); // Set isLoaded to true even in case of error
+      });
+  }, []);
+
+
   const columns = [
     {
       name: 'SR NO',
@@ -42,7 +42,7 @@ export default function Checkreviewrateings() {
     },
     {
       name: "Message",
-      selector:row => row.message,
+      selector: row => row.message,
       sortable: true
     },
     {
@@ -54,9 +54,9 @@ export default function Checkreviewrateings() {
 
 
 
-    return (
-        <>
-                <div id="wrapper" style={{ backgroundImage: 'url("https://t3.ftcdn.net/jpg/05/69/26/10/360_F_569261029_71L0qkdQoIAhyiVt6z9yJoFP3CFhmlvX.jpg")', backgroundSize: 'cover', backgroundAttachment: 'fixed' }}>
+  return (
+    <>
+      <div id="wrapper" style={{ backgroundImage: 'url("https://t3.ftcdn.net/jpg/05/69/26/10/360_F_569261029_71L0qkdQoIAhyiVt6z9yJoFP3CFhmlvX.jpg")', backgroundSize: 'cover', backgroundAttachment: 'fixed' }}>
         <Sidebar />
         <div id="content-wrapper" className="d-flex flex-column bg-transparent" >
           <div id="content">
@@ -67,8 +67,8 @@ export default function Checkreviewrateings() {
                   <div className="card-header py-3" style={{ border: "1px solid white", backdropFilter: 'blur(3px)' }}>
                     <h6 className="m-0 font-weight-bold text-light">FEEDBACK</h6>
                   </div>
-                  <div className="card-body bg-transparent">          
-                  <div className="row">
+                  <div className="card-body bg-transparent">
+                    <div className="row">
                       <div className="col-lg-2 d-flex align-content-center justify-content-end text-light">
                         Search here
                       </div>
@@ -77,13 +77,13 @@ export default function Checkreviewrateings() {
                           type="text"
                           className="form-control bg-transparent"
                           placeholder="Search..."
-                        
+
                           style={{ width: '30%' }} />
 
                       </div>
 
                     </div>
-                       <br/>
+                    <br />
                     {!isLoaded ? (
                       <div>Loading...</div>
                     ) : (
@@ -120,15 +120,15 @@ export default function Checkreviewrateings() {
                         />
                       </>
                     )}
-                                            
-                                        
-                                    </div>
-                                </div></div>
-                            </Container>
-                        </div>
-                    </div>
-                </div>
-          
-        </>
-    );
+
+
+                  </div>
+                </div></div>
+            </Container>
+          </div>
+        </div>
+      </div>
+
+    </>
+  );
 }

@@ -52,24 +52,27 @@ function UserData() {
   const UserDelete = async (_id) => {
     try {
       const response = await ApiCall('DELETE', 'admin/deleteuser', { _id });
-      const { message } = response.data.DeleteData;
-      console.log(message);
-      fetchUserData();
-      toast.error(' Deleted Successfully ', {
+      if (response.data.success) {
+        fetchUserData();
+        toast.success('Deleted Successfully', {
+          position: "top-right",
+          autoClose: 2000,
+        });
+      } else {
+        toast.error(response.data.message || 'Failed to delete user', {
+          position: "top-right",
+          autoClose: 2000,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to delete user', {
         position: "top-right",
         autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-
       });
-    } catch (error) {
-      console.log(error);
     }
   };
+  
 
 
   const columns = [
@@ -100,7 +103,6 @@ function UserData() {
           <button onClick={() => UserDelete(row._id)} className="btn bg-danger text-white" style={{ margin: '3px' }}>Delete</button>
         </>
       ),
-      button: true
     }
   ];
 

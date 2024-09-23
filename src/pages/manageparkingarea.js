@@ -116,7 +116,6 @@ export default function Manageparkingarea() {
 
         </>
       ),
-      button: true
     },
     {
       name: "DELETE",
@@ -125,7 +124,6 @@ export default function Manageparkingarea() {
           <button onClick={() => handleDeleteAreaSubmit(row._id)} className="btn bg-danger text-white" style={{ margin: '3px' }}>Delete</button>
         </>
       ),
-      button: true
     }
 
   ];

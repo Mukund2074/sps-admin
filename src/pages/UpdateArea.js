@@ -34,52 +34,41 @@ export default function UpdateArea() {
 
 
 const handleSubmit = async (e) => {
-    e.preventDefault();
-   
+  e.preventDefault();
 
-    try{
-       
-        const responce = await ApiCall('PUT' ,'admin/updatearea' ,  )
-       
+  try {
+      const response = await ApiCall('PUT', 'admin/updatearea', update); // Pass the update state here
 
-        if(responce.data.success)
-        {
+      if (response.data.success) {
           console.log("Success");
-          toast.success(' UPDATE Successfully ', {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          
-            });
+          toast.success('UPDATE Successfully', {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+          });
           navigate("/manageparkingarea");
-        }
-        else
-        {
-          toast.error(' Something Went Wrong ', {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          
-            });
-        console.log("not done yet")
-
-        }
-    }
-    catch(err){
-        console.log(err);
-    }
+      } else {
+          toast.error('Something Went Wrong', {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+          });
+          console.log("not done yet");
+      }
+  } catch (err) {
+      console.log(err);
+  }
 }
-
 
 
 
