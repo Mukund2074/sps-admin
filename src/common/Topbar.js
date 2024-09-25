@@ -21,44 +21,25 @@ export default function Topbar() {
 
 
     async function logout() {
-        await ApiCall('GET', 'admin/adminlogout').then((response) => {
 
-            if (response.status === 200) {
-                toast.success("Logged out successfully" , {
-                    position: "top-center",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                });
-                navigate("/")
+        try {
+            const responce = await ApiCall('POST', 'admin/adminlogout');
+            if (responce.data) {
+                toast.success("Logout Successfull");
+                navigate('/');
             }
-            else {
-                toast.error("Error logging out" , {
-                    position: "top-center",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                });
-                console.log("error", response);
-            }
-
-        })
+        }
+        catch (error) {
+            console.error("Error Fetching Data", error)
+            toast.error(error.response.data.message);
+            navigate('/');
+        }
     }
 
     const [email, setEmail] = useState([]);
     const [fname, setFname] = useState([]);
     const [lname, setLname] = useState([]);
 
-
-    useEffect(() => {
 
         const fetchSessionData = async () => {
             try {
@@ -70,13 +51,11 @@ export default function Topbar() {
                     setLname(responce.data.sessionData.session.lname);
                 }
             }
-
             catch (error) {
                 console.error("Error Fetching Data", error)
             }
         };
         fetchSessionData();
-    }, [])
 
     function handleSidebar(e) {
         const sidebar = document.getElementById('accordionSidebar');

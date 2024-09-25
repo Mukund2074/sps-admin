@@ -98,7 +98,7 @@ const handleSubmit = async (e) => {
                           value={approve.Name}  onChange={handleChange}
                             placeholder="Name"/>
                         </div>
-                        <div class="col-sm-6 ">
+                        <div className="col-sm-6 ">
                           <input type="text" className="form-control form-control-user"  name="id"
                           value={approve.id} onChange={handleChange} placeholder="id"/>
                         </div>
@@ -123,7 +123,7 @@ const handleSubmit = async (e) => {
                             placeholder="Phone No" onChange={handleChange}
                             value={approve.Phone}/>
                         </div>
-                        <div class="col-sm-6">
+                        <div className="col-sm-6">
                           <input type="text" className="form-control form-control-user" name="CardNo"
                             placeholder="Card Number" onChange={handleChange}   value={approve.CardNo} />
                            

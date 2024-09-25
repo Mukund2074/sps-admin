@@ -1,13 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import loginimg from '../vecteezy_underground-car-parking-area-generative-ai_22084877.jpg'
 import React, { useState } from 'react';
-import axios from "axios";
-
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ApiCall from "../ApiCall";
 
-export default function Login() {
+export default function Login({ setIsAuthanticated }) {
 
     const navigate = useNavigate();
     const [loginData, setLoginData] = useState({
@@ -28,19 +26,22 @@ export default function Login() {
 
 
         try {
-            const response = await ApiCall(
-                "POST" , "admin/adminlogin",
-                loginData
-            );
+
+            console.log("payload: ", loginData);
+            const response = await ApiCall("POST", "admin/adminlogin", loginData, { withCredentials: true });
             console.log("response after login: ", response);
-            
+
 
             const data = response.data;
-            if (data.success) {
-                navigate('/dashboard')
+            if (data.success === true) {
+
+                setIsAuthanticated(true);
+                document.cookie = `ADMIN_SESSION=${data.sessionID}; path=/;`;
+                navigate("/dashboard");
                 toast.success("Login Successful", {
                     autoClose: 1500
                 });
+
             }
 
         } catch (error) {

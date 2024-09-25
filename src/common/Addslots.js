@@ -86,7 +86,7 @@ export default function Addslots() {
                         <input type="text" className="form-control form-control-user" id="Locality" name="Locality"
                           placeholder="Area Locality" value={Area.Locality} onChange={handleChange} required />
                       </div>
-                      <div class="col-sm-6 ">
+                      <div className="col-sm-6 ">
                         <input type="text" className="form-control form-control-user" id="Name" name="Name"
                           placeholder="Area Name" value={Area.Name} onChange={handleChange} required />
                       </div>
@@ -102,7 +102,7 @@ export default function Addslots() {
                         <input type="text" className="form-control form-control-user"  name="Online"
                           placeholder="Add Online Slot" value={Area.Online} onChange={handleChange} required />
                       </div>
-                      <div class="col-sm-6">
+                      <div className="col-sm-6">
                         <input type="text" className="form-control form-control-user" name="Rfid"
                           placeholder="Add Rfid Slot" value={Area.Rfid} onChange={handleChange} required />
                       </div>

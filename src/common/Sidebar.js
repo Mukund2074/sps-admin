@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
@@ -8,7 +7,7 @@ export default function Sidebar() {
   const [fname, setFname] = useState([]);
   const [lname, setLname] = useState([]);
 
-  useEffect(() => {
+
     const fetchSessionData = async () => {
       try {
         const responce = await ApiCall("GET", "admin/adminsession");
@@ -22,7 +21,6 @@ export default function Sidebar() {
       }
     }; 
     fetchSessionData();
-  }, []);
 
   return (
     <>

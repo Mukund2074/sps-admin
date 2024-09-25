@@ -9,11 +9,10 @@
     "react-data-table-component": "^7.6.2",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.1",
-    "react-scripts": "^5.0.1",
     "react-toastify": "^10.0.5"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set PORT=4000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
