@@ -40,7 +40,7 @@ export default function UpdateArea() {
     e.preventDefault();
   
     try {
-      const response = await ApiCall('PUT', 'admin/updatearea', update); 
+      const response = await ApiCall('PUT', `admin/updatearea/${location.state.value._id}`, update); 
       console.log("data for update: ", update);
   
       if (response.data.success) {

@@ -20,57 +20,63 @@ import 'react-toastify/dist/ReactToastify.css';
 import RfidCardRequest from './pages/RfidCardRequest';
 import UserData from './pages/UserData';
 import GetComplaint from './pages/GetComplaint';
-import {  useState } from 'react';
+import { useEffect, useState } from 'react';
 import CardApprove from './pages/CardAprove';
 import ForgotPass from './pages/forget';
 import axios from 'axios';
 
 function App() {
-    const [isAuthanticated, setIsAuthanticated] = useState(false);
-    var loding = false;
 
-    axios.defaults.withCredentials = true;
+  axios.defaults.withCredentials = true;
+  const [loading, setLoading] = useState(true); // New loading state
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    // useEffect(() => {
-    //     checkSesiondata().then((data) => {
-    //         setIsAuthanticated(data);
-    //         setLoding(false);
-    //     });
-    // }, []);
-    
+  useEffect(() => {
+    try {
+      const token = localStorage.getItem('AUTH_TOKEN');
+      if (token) {
+        setIsAuthenticated(true);
+      }
+      setLoading(false);
 
-    if (loding) {
-        return <div>Loading...</div>;
+    } catch (error) {
+
     }
+  }, [isAuthenticated]);
 
-    return (
-        <div className="App">
-            <ToastContainer />
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Login setIsAuthanticated={setIsAuthanticated}  />} />
-                    <Route path="/forget" element={<ForgotPass />} />
-                    <Route path="/Dashboard" element={isAuthanticated ? <Dashboard /> : <Navigate to="/" />} />
-                    <Route path="/Signup" element={<Signup />} />
-                    <Route path='/irtable' element={isAuthanticated ? <IRTable /> : <Navigate to="/" />} />
-                    <Route path='/ultrasonictable' element={isAuthanticated ? <UltrasonicTable /> : <Navigate to="/" />} />
-                    <Route path='/rfidtable' element={isAuthanticated ? <RfidTable /> : <Navigate to="/" />} />
-                    <Route path='/manageparkingarea' element={isAuthanticated ? <Manageparkingarea /> : <Navigate to="/" />} />
-                    <Route path='/bookingdata' element={isAuthanticated ? <Bookingdata /> : <Navigate to="/" />} />
-                    <Route path='/reviewrateing' element={isAuthanticated ? <Checkreviewrateings /> : <Navigate to="/" />} />
-                    <Route path='/addslots' element={isAuthanticated ? <Addslots /> : <Navigate to="/" />} />
-                    <Route path='/updatearea/:id' element={isAuthanticated ? <UpdateArea /> : <Navigate to="/" />} />
-                    <Route path='/admindata' element={isAuthanticated ? <Admin /> : <Navigate to="/" />} />
-                    <Route path='/*' element={<UnderDevelopment />} />
-                    <Route path="/totaldevicedata" element={isAuthanticated ? <TotaldeviceData /> : <Navigate to="/" />} />
-                    <Route path='/rfidcardrequest' element={isAuthanticated ? <RfidCardRequest /> : <Navigate to="/" />} />
-                    <Route path='/userdata' element={isAuthanticated ? <UserData /> : <Navigate to="/" />} />
-                    <Route path='/complains' element={isAuthanticated ? <GetComplaint /> : <Navigate to="/" />} />
-                    <Route path='/cardapprove' element={isAuthanticated ? <CardApprove /> : <Navigate to="/" />} />
-                </Routes>
-            </BrowserRouter>
-        </div>
-    );
+  if (loading) {
+    return null
+  }
+
+  return (
+    <div className="App">
+      <ToastContainer />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+
+          <Route path="/forget" element={<ForgotPass />} />
+          <Route path="/Dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
+          <Route path="/Signup" element={<Signup />} />
+          <Route path='/irtable' element={isAuthenticated ? <IRTable /> : <Navigate to="/" />} />
+          <Route path='/ultrasonictable' element={isAuthenticated ? <UltrasonicTable /> : <Navigate to="/" />} />
+          <Route path='/rfidtable' element={isAuthenticated ? <RfidTable /> : <Navigate to="/" />} />
+          <Route path='/manageparkingarea' element={isAuthenticated ? <Manageparkingarea /> : <Navigate to="/" />} />
+          <Route path='/bookingdata' element={isAuthenticated ? <Bookingdata /> : <Navigate to="/" />} />
+          <Route path='/reviewrateing' element={isAuthenticated ? <Checkreviewrateings /> : <Navigate to="/" />} />
+          <Route path='/addslots' element={isAuthenticated ? <Addslots /> : <Navigate to="/" />} />
+          <Route path='/updatearea/:id' element={isAuthenticated ? <UpdateArea /> : <Navigate to="/" />} />
+          <Route path='/admindata' element={isAuthenticated ? <Admin /> : <Navigate to="/" />} />
+          <Route path='/*' element={<UnderDevelopment />} />
+          <Route path="/totaldevicedata" element={isAuthenticated ? <TotaldeviceData /> : <Navigate to="/" />} />
+          <Route path='/rfidcardrequest' element={isAuthenticated ? <RfidCardRequest /> : <Navigate to="/" />} />
+          <Route path='/userdata' element={isAuthenticated ? <UserData /> : <Navigate to="/" />} />
+          <Route path='/complains' element={isAuthenticated ? <GetComplaint /> : <Navigate to="/" />} />
+          <Route path='/cardapprove' element={isAuthenticated ? <CardApprove /> : <Navigate to="/" />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default App;

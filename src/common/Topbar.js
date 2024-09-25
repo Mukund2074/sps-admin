@@ -43,12 +43,12 @@ export default function Topbar() {
 
         const fetchSessionData = async () => {
             try {
-                const responce = await ApiCall('GET', 'admin/adminsession');
+                const responce = await ApiCall('GET', 'admin/admininfo');
 
                 if (responce.data) {
-                    setEmail(responce.data.sessionData.session.email);
-                    setFname(responce.data.sessionData.session.fname);
-                    setLname(responce.data.sessionData.session.lname);
+                    setEmail(responce.data.user.email);
+                    setFname(responce.data.user.fname);
+                    setLname(responce.data.user.lname);
                 }
             }
             catch (error) {

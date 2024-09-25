@@ -1,14 +1,18 @@
 import axios from 'axios';
 
-const ApiCall = async (method, endPointUrl, data = null, withCredentials = false) => {
-    const localhost = 'http://localhost:8000';
-    // const baseURL = "https://sps-backend.vercel.app"; // Consider using this if needed
-    const url = `${localhost}/${endPointUrl}`; // Use baseURL if you're deploying
-
+const ApiCall = async (method, endPointUrl, data = null) => { 
+    const localhost = 'http://localhost:8000'; // Base URL for your API
+    const url = `${localhost}/${endPointUrl}`;
+    
     try {
+        const config = {
+            headers: {
+                'Authorization': localStorage.getItem('AUTH_TOKEN') ? `Bearer ${localStorage.getItem('AUTH_TOKEN')}` : '',
+                'Content-Type': 'application/json',
+            },
+        };
+        
         let response;
-        const config = { withCredentials };
-
         switch (method.toLowerCase()) {
             case 'get':
                 response = await axios.get(url, config);
@@ -20,7 +24,7 @@ const ApiCall = async (method, endPointUrl, data = null, withCredentials = false
                 response = await axios.put(url, data, config);
                 break;
             case 'delete':
-                response = await axios.delete(url, { data, ...config });
+                response = await axios.delete(url, config);
                 break;
             default:
                 throw new Error('Invalid method');

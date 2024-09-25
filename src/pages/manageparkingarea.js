@@ -45,9 +45,7 @@ export default function Manageparkingarea() {
 
   const handleDeleteAreaSubmit = async (_id) => {
     try {
-      const response = await ApiCall('DELETE', 'admin/deletearea', { _id });
-      const { message } = response.data.DeleteData;
-      console.log(message);
+     await ApiCall(`DELETE`, `admin/deletearea/${_id}` );
       GetArea();
       toast.error(' Deleted Successfully ', {
         position: "top-right",

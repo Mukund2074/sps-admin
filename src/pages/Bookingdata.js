@@ -13,7 +13,6 @@ export default function BookingData() {
     ApiCall("GET", 'admin/booking')
       .then((response) => {
         const data = response.data.Sensordata;
-        console.log("response", response);
         setBooking(data);
         setIsLoaded(true);
         setFilteredItems(data);

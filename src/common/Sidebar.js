@@ -10,11 +10,11 @@ export default function Sidebar() {
 
     const fetchSessionData = async () => {
       try {
-        const responce = await ApiCall("GET", "admin/adminsession");
+        const responce = await ApiCall("GET", "admin/admininfo");
 
         if (responce.data) {
-          setFname(responce.data.sessionData.session.fname);
-          setLname(responce.data.sessionData.session.lname);
+          setFname(responce.data.user.fname);
+          setLname(responce.data.user.lname);
         }
       } catch (error) {
         console.error("Error Fetching Data", error);
