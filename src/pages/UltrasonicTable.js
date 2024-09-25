@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Footer from "../common/Footer";
 import Sidebar from "../common/Sidebar";
 import Topbar from "../common/Topbar";
-import axios from "axios";
 import DataTable from "react-data-table-component";
 import { Container } from "react-bootstrap";
 import ApiCall from "../ApiCall";
@@ -39,11 +38,6 @@ export default function UltrasonicTable() {
       return inches.includes(searchText) || entryTime.includes(searchText);
     });
     setFilteredItems(filteredData);
-  };
-
-  const clearSearch = () => {
-    setSearchText('');
-    setFilteredItems(ultrasonicData); 
   };
 
   const columns = [

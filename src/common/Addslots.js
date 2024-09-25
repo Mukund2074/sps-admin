@@ -2,7 +2,6 @@ import React from 'react'
 import Sidebar from './Sidebar'
 import Topbar from './Topbar'
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

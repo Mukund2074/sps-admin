@@ -3,7 +3,6 @@ import Sidebar from "../common/Sidebar";
 import Topbar from "../common/Topbar";
 import { Container } from "react-bootstrap";
 import DataTable from "react-data-table-component";
-import axios from "axios";
 import ApiCall from "../ApiCall";
 
 export default function Checkreviewrateings() {

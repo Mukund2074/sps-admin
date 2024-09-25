@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import Spinner from 'react-bootstrap/Spinner';
-import axios from 'axios';
 import ApiCall from "../ApiCall";
 
 export default function BookingData() {

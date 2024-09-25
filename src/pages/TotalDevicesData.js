@@ -2,7 +2,6 @@
   import Footer from "../common/Footer";
   import Sidebar from "../common/Sidebar";
   import Topbar from "../common/Topbar";
-  import axios from "axios";
   import DataTable from "react-data-table-component";
   import {Container} from 'react-bootstrap';
 import ApiCall from "../ApiCall";

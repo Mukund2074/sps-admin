@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "../common/Footer";
@@ -6,8 +6,6 @@ import { Container } from "react-bootstrap";
 import Sidebar from "../common/Sidebar";
 import Topbar from "../common/Topbar";
 import Bookingdata from "./Bookingdata";
-import axios from "axios";
-import ApiCall from "../ApiCall";
 
 export default function Dashboard() {
 

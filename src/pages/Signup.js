@@ -1,6 +1,5 @@
 import { Link , useNavigate} from "react-router-dom";
 import signupimg from '../vecteezy_underground-car-parking-area-generative-ai_22084873.jpg'
-import axios from "axios";
 import { useState } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

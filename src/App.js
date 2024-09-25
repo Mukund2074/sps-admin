@@ -20,15 +20,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import RfidCardRequest from './pages/RfidCardRequest';
 import UserData from './pages/UserData';
 import GetComplaint from './pages/GetComplaint';
-import { useEffect, useState } from 'react';
-import checkSesiondata from './auth/authServices';
+import {  useState } from 'react';
 import CardApprove from './pages/CardAprove';
 import ForgotPass from './pages/forget';
 import axios from 'axios';
 
 function App() {
     const [isAuthanticated, setIsAuthanticated] = useState(false);
-    const [loding, setLoding] = useState(false);
+    var loding = false;
 
     axios.defaults.withCredentials = true;
 
@@ -38,6 +37,7 @@ function App() {
     //         setLoding(false);
     //     });
     // }, []);
+    
 
     if (loding) {
         return <div>Loading...</div>;
@@ -48,7 +48,7 @@ function App() {
             <ToastContainer />
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Login setIsAuthanticated={setIsAuthanticated} />} />
+                    <Route path="/" element={<Login setIsAuthanticated={setIsAuthanticated}  />} />
                     <Route path="/forget" element={<ForgotPass />} />
                     <Route path="/Dashboard" element={isAuthanticated ? <Dashboard /> : <Navigate to="/" />} />
                     <Route path="/Signup" element={<Signup />} />

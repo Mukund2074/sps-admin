@@ -6,6 +6,8 @@ const checkSession = async () => {
     try {
       
         console.log("response from check session", ID);
+        const response = await ApiCall('GET', 'admin/checksession', { _id: ID });
+        console.log("response from check session", response);
         return { isAuth: true }; // Session is valid
 
     } catch (error) {
