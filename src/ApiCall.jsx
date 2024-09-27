@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 const ApiCall = async (method, endPointUrl, data = null) => { 
-    const localhost = 'http://localhost:8000'; // Base URL for your API
-    const url = `${localhost}/${endPointUrl}`;
+    // const localhost = 'http://localhost:8000'; // Base URL for your API
+    const BASEURL = "https://sps-backend.vercel.app"
+    const url = `${BASEURL}/${endPointUrl}`;
     
     try {
         const config = {

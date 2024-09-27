@@ -26,6 +26,14 @@ export default function Login({ setIsAuthenticated }) {
             const response = await ApiCall("post", "admin/adminlogin", loginData);
             if (response.data.success) {
                 localStorage.setItem('AUTH_TOKEN', response.data.token);
+                var convertedData = JSON.stringify({
+                    fname: response.data.adminData.fname,
+                    lname: response.data.adminData.lname,
+                    email: response.data.adminData.email
+                });
+                
+                
+                document.cookie = "adminData=" + convertedData;
                 setIsAuthenticated(true);
                 toast.success("Login Successful", {
                     autoClose: 1500,

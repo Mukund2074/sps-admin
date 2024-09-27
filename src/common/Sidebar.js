@@ -1,31 +1,35 @@
-import React, {  useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import ApiCall from "../ApiCall";
 
 export default function Sidebar() {
-  const [fname, setFname] = useState([]);
-  const [lname, setLname] = useState([]);
+  const [adminData, setAdminData] = useState({});
 
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null; 
+  }
 
-    const fetchSessionData = async () => {
+  useEffect(() => {
+    const adminDataCookie = getCookie('adminData');
+
+    if (adminDataCookie) {
       try {
-        const responce = await ApiCall("GET", "admin/admininfo");
-
-        if (responce.data) {
-          setFname(responce.data.user.fname);
-          setLname(responce.data.user.lname);
-        }
+        const parsedData = JSON.parse(adminDataCookie);
+        setAdminData(parsedData); 
       } catch (error) {
-        console.error("Error Fetching Data", error);
+        setAdminData(null);
       }
-    }; 
-    fetchSessionData();
+    } else {
+      setAdminData(null);
+    }
+  }, []); 
 
   return (
     <>
       <ul
-        className="navbar-nav bg-transperent sidebar sidebar-dark accordion"
+        className="navbar-nav bg-transparent sidebar sidebar-dark accordion"
         style={{ borderRight: "1px solid white", backdropFilter: "blur(4px)" }}
         id="accordionSidebar"
       >
@@ -33,16 +37,15 @@ export default function Sidebar() {
           <div className="sidebar-brand-icon">
             <i className="fa-solid fa-user-tie text-gray-400"></i>
           </div>
-          <div className="text-gray-500 mx-3 overflow-x-visible" style={{fontSize:'80%'}}>
-            Welcome<br/>
-            {fname}<br/>
-            {lname}
-            
+          <div className="text-gray-500 mx-3 overflow-x-visible" style={{ fontSize: '80%' }}>
+            Welcome<br />
+            {adminData?.fname}<br />
+            {adminData?.lname}
           </div>
         </span>
         <hr style={{ border: "2px solid white" }} />
 
-        <li className="nav-item bbttnn ">
+        <li className="nav-item bbttnn">
           <Link className="nav-link" to="/dashboard">
             <i className="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
@@ -52,22 +55,22 @@ export default function Sidebar() {
 
         <div className="sidebar-heading">SENSOR DATA</div>
 
-        <li className="nav-item bbttnn ">
+        <li className="nav-item bbttnn">
           <Link className="nav-link" to="/irtable">
             <i className="fas fa-fw fa-cog"></i>
             <span>IR SENSOR</span>
           </Link>
         </li>
 
-        <li className="nav-item bbttnn ">
+        <li className="nav-item bbttnn">
           <Link className="nav-link" to="/rfidtable">
-            <i className="fa solid fa-qrcode"></i>
+            <i className="fas fa-solid fa-qrcode"></i>
             <span>RFID SENSOR</span>
           </Link>
         </li>
         <li className="nav-item bbttnn">
           <Link className="nav-link collapsed" to="/ultrasonictable">
-            <i className="fa solid fa-gears"></i>
+            <i className="fas fa-solid fa-gears"></i>
             <span>ULTRASONIC SENSOR</span>
           </Link>
         </li>
@@ -110,19 +113,19 @@ export default function Sidebar() {
 
         <hr style={{ border: "2px solid white" }} />
 
-        <div className="sidebar-heading">Responces To Check</div>
+        <div className="sidebar-heading">Responses To Check</div>
 
         <li className="nav-item bbttnn">
           <Link className="nav-link collapsed" to="/reviewrateing">
             <i className="fa-regular fa-star"></i>
-            <span>Check Review & Rateings</span>
+            <span>Check Review & Ratings</span>
           </Link>
         </li>
 
         <li className="nav-item bbttnn">
           <Link className="nav-link collapsed" to="/complains">
             <i className="fa-regular fa-star"></i>
-            <span>Check Complains</span>
+            <span>Check Complaints</span>
           </Link>
         </li>
 

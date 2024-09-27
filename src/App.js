@@ -2,7 +2,6 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
-import Signup from './pages/Signup';
 import Login from './pages/Login';
 import UnderDevelopment from './common/Underdev';
 import UltrasonicTable from './pages/UltrasonicTable';
@@ -57,7 +56,6 @@ function App() {
 
           <Route path="/forget" element={<ForgotPass />} />
           <Route path="/Dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
-          <Route path="/Signup" element={<Signup />} />
           <Route path='/irtable' element={isAuthenticated ? <IRTable /> : <Navigate to="/" />} />
           <Route path='/ultrasonictable' element={isAuthenticated ? <UltrasonicTable /> : <Navigate to="/" />} />
           <Route path='/rfidtable' element={isAuthenticated ? <RfidTable /> : <Navigate to="/" />} />
