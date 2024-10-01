@@ -89,22 +89,22 @@ export default function RfidTable() {
                   </div>
                   <div className="card-body bg-transparent">
 
-                    <div className="row">
-                      <div className="col-lg-2 d-flex align-content-center justify-content-end text-light">
+                    <div className="row align-items-center mb-3">
+                      <div className="col-12 col-md-2 text-light text-md-end">
                         Search here
                       </div>
-                      <div className="col-lg-10">
+                      <div className="col-12 col-md-10">
                         <input
                           type="text"
                           className="form-control bg-transparent"
                           placeholder="Search..."
                           value={searchText}
                           onChange={handleSearch}
-                          style={{ width: '30%' }} />
-
+                          style={{ color: 'white' }}
+                        />
                       </div>
-
                     </div>
+
                     <br />
                     {!isLoaded ? (
                       <div>Loading...</div>

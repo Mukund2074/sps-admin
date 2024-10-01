@@ -37,7 +37,7 @@ export default function Addslots() {
       const responce = await ApiCall('POST', 'admin/Addslot', Area)
 
       if (responce.data.success) {
-        console.log("Success");
+        toast.success("Area Added Successfully");
 
       }
       else {
@@ -58,7 +58,7 @@ export default function Addslots() {
       }
     }
     catch (err) {
-      console.log(err);
+      toast.error(err);
     }
   }
 

@@ -22,20 +22,20 @@ export default function Manageparkingarea() {
       })
       .catch((error) => {
         if (error.response && error.response.status === 404) {
-          console.log("No areas found");
-          setArea([]);
+          toast.error("No areas found");
           setIsLoaded(true);
         } else {
-          console.error("Error fetching AREA:", error);
+          toast.error("Failed to fetch areas");
+          setIsLoaded(true);
         }
       });
   };
 
   const filteredItems = area.filter(
-    (item) => 
-    item.Name.toLowerCase().includes(searchText.toLocaleLowerCase())||
-    item.Locality.toLowerCase().includes(searchText.toLocaleLowerCase())||
-    item.Zipcode.includes(searchText)
+    (item) =>
+      item.Name.toLowerCase().includes(searchText.toLocaleLowerCase()) ||
+      item.Locality.toLowerCase().includes(searchText.toLocaleLowerCase()) ||
+      item.Zipcode.includes(searchText)
 
   )
 
@@ -45,9 +45,9 @@ export default function Manageparkingarea() {
 
   const handleDeleteAreaSubmit = async (_id) => {
     try {
-     await ApiCall(`DELETE`, `admin/deletearea/${_id}` );
+      await ApiCall(`DELETE`, `admin/deletearea/${_id}`);
       GetArea();
-      toast.error(' Deleted Successfully ', {
+      toast.success(' Deleted Successfully ', {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -59,7 +59,7 @@ export default function Manageparkingarea() {
 
       });
     } catch (error) {
-      console.log(error);
+      toast.error('Failed to delete Area');
     }
   };
 
@@ -153,22 +153,22 @@ export default function Manageparkingarea() {
                   </div>
                   <div className="card-body bg-transparent">
 
-                    <div className="row">
-                      <div className="col-lg-2 col-sm-2 d-flex align-content-center justify-content-end text-light">
+                    <div className="row align-items-center mb-3">
+                      <div className="col-12 col-md-2 text-light text-md-end">
                         Search here
                       </div>
-                      <div className="col-lg-10 col-sm-10">
+                      <div className="col-12 col-md-10">
                         <input
                           type="text"
                           className="form-control bg-transparent"
                           placeholder="Search..."
                           value={searchText}
                           onChange={handleSearch}
-                          style={{ width: '40%' , color:'white'}} />
-
+                          style={{ color: 'white' }}
+                        />
                       </div>
-
                     </div>
+
                     <br />
                     {!isLoaded ? (
                       <div>Loading...</div>
@@ -178,10 +178,10 @@ export default function Manageparkingarea() {
                           <i className="fa-solid fa-plus">&nbsp;</i>
                           ADD PARKING AREA
                         </Link>
-                        
+
                         {/* Use filteredItems instead of area */}
                         <DataTable
-                        className='mt-3'
+                          className='mt-3'
                           columns={columns}
                           data={filteredItems} // Use filteredItems here
                           pagination

@@ -21,7 +21,7 @@ export default function Topbar() {
             toast.success("Logout Successful");
             navigate('/');
         } catch (error) {
-            console.error("Error Fetching Data", error);
+            toast.error("Error Fetching Data", error);
             if (error.response && error.response.data) {
                 toast.error(error.response.data.message);
             } else {
@@ -80,16 +80,14 @@ export default function Topbar() {
                 <button id="sidebarToggleTop" onClick={handleSidebar} className="btn btn-link d-md-none rounded-circle mr-3">
                     <i className="fa fa-bars" />
                 </button>
-                <div className='Nnavbar'>
-                    <div className='Nnavbar Nnavbar-brand'><h1>
-                        <span>D</span>rive<span>S</span>ync<span>P</span>ark<span>X</span></h1>
-                    </div>
-                </div>
+                    <p className='Nnavbar Nnavbar-brand'>
+                        <span>D</span>rive<span>S</span>ync<span>P</span>ark<span>X</span>
+                </p>
                 <ul className="navbar-nav ml-auto">
                     <div className="topbar-divider d-none d-sm-block"></div>
                     <li className="nav-item dropdown no-arrow">
                         <Link className="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span className="mr-2 d-none d-lg-inline text-gray-600 small">{data.fname} {data.lname}</span>
+                            <span className="mr-2 d-none d-lg-inline text-gray-600 small">{data?.fname} {data?.lname}</span>
                             <img className="img-profile rounded-circle" src="img/undraw_profile.svg" alt='NOTHING TO DISPLAY' />
                         </Link>
 
@@ -97,16 +95,16 @@ export default function Topbar() {
                             <div style={{ textAlign: "center", position: 'relative', borderTopLeftRadius: '20px', borderTopRightRadius: '20px', overflow: 'hidden', margin: '-7px auto' }}>
                                 <div style={{ height: "180px", width: '100%', background: 'linear-gradient(135deg, #3498db, #9b59b6)', borderBottom: '2px solid #3498db', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', boxShadow: '0px 5px 15px rgba(0, 0, 0, 0.3)', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}>
                                     <img className="img-profile rounded-circle" src="img/undraw_profile.svg" alt='NOTHING TO DISPLAY' style={{ height: '120px', width: '120px', boxShadow: '0px 3px 6px rgba(0, 0, 0, 0.3)', borderRadius: '10%', border: '5px solid #fff', animation: 'pulse 1.5s infinite alternate' }} />
-                                    <span style={{ color: '#ecf0f1', fontSize: '1.5rem', fontWeight: 'bold', marginTop: '10px', textShadow: '2px 2px 4px #000', animation: 'fade-in 0.5s ease' }}>{data.fname}'s Profile</span>
+                                    <span style={{ color: '#ecf0f1', fontSize: '1.5rem', fontWeight: 'bold', marginTop: '10px', textShadow: '2px 2px 4px #000', animation: 'fade-in 0.5s ease' }}>{data?.fname}'s Profile</span>
                                 </div>
                                 <br />
                                 <h6 style={{ color: '#ecf0f1', margin: '0.5rem 0', animation: 'fade-in-up 0.5s ease' }}>
                                     <i className="fas fa-user-tie fa-sm fa-fw mr-2" style={{ color: '#f1c40f' }}></i>
-                                    {data.fname} {data.lname}
+                                    {data?.fname} {data?.lname}
                                 </h6>
                                 <h6 style={{ color: '#ecf0f1', margin: '0.5rem 0', animation: 'fade-in-up 0.5s ease' }}>
                                     <i className="fas fa-envelope fa-sm fa-fw mr-2" style={{ color: '#e74c3c' }}></i>
-                                    {data.email}
+                                    {data?.email}
                                 </h6>
                                 <div className="dropdown-divider" />
                                 <button className="btn btn-primary btn-block" onClick={handleShow} style={{ color: '#ecf0f1', borderRadius: '1.5rem', backgroundColor: '#3498db', border: 'none', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)', width: '50%', margin: '0.5rem', marginBottom: '0.7rem' }} >

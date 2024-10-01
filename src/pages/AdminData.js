@@ -4,7 +4,7 @@ import Sidebar from "../common/Sidebar";
 import Topbar from "../common/Topbar";
 import DataTable from "react-data-table-component";
 import { Container } from "react-bootstrap";
-import { toast } from "react-toastify"; 
+import { toast } from "react-toastify";
 import ApiCall from "../ApiCall";
 
 function AdminArea() {
@@ -13,20 +13,20 @@ function AdminArea() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-   fetchAdminData()
+    fetchAdminData()
   }, []);
 
-  const fetchAdminData = ()=>{
+  const fetchAdminData = () => {
     ApiCall("GET", "admin/admindata")
-    .then((response) => {
-      const data = response.data.Admindatas;
-      
-      setAdminData(data);
-      setIsLoaded(true);
-    })
-    .catch((error) => {
-      console.error("Error fetching admin data: ", error);
-    });
+      .then((response) => {
+        const data = response.data.Admindatas;
+
+        setAdminData(data);
+        setIsLoaded(true);
+      })
+      .catch((error) => {
+        toast.error("Error fetching admin data: ");
+      });
   }
 
   const filteredItems = admindata.filter((item) => {
@@ -39,7 +39,7 @@ function AdminArea() {
       (item.password && item.password.toLowerCase().includes(lowerSearchText))
     );
   });
-  
+
 
   const handleSearch = (e) => {
     setSearchText(e.target.value);
@@ -47,9 +47,9 @@ function AdminArea() {
 
   const AdminDelete = async (_id) => {
     try {
-      await ApiCall('DELETE', 'admin/deleteAdmin', { _id });
+      await ApiCall('DELETE', `admin/deleteAdmin/${_id}`);
       fetchAdminData();
-      toast.error(' Deleted Successfully ', {
+      toast.success(' Deleted Successfully ', {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -60,10 +60,10 @@ function AdminArea() {
         theme: "colored",
       });
     } catch (error) {
-      console.log(error);
+      toast.error('Failed to delete Admin',)
     }
   };
-  
+
 
   const columns = [
     {
@@ -83,7 +83,7 @@ function AdminArea() {
     },
     {
       name: "Email",
-      selector:row => row.email,
+      selector: row => row.email,
       sortable: true
     },
     {
@@ -108,44 +108,44 @@ function AdminArea() {
 
   return (
     <>
-          <div id="wrapper" style={{backgroundImage: 'url("https://t3.ftcdn.net/jpg/05/69/26/10/360_F_569261029_71L0qkdQoIAhyiVt6z9yJoFP3CFhmlvX.jpg")', backgroundSize:'cover',backgroundAttachment:'fixed'}}>
-                <Sidebar />
-                <div id="content-wrapper" className="d-flex flex-column bg-transparent" >
-                    <div id="content">
-                        <Topbar />
+      <div id="wrapper" style={{ backgroundImage: 'url("https://t3.ftcdn.net/jpg/05/69/26/10/360_F_569261029_71L0qkdQoIAhyiVt6z9yJoFP3CFhmlvX.jpg")', backgroundSize: 'cover', backgroundAttachment: 'fixed' }}>
+        <Sidebar />
+        <div id="content-wrapper" className="d-flex flex-column bg-transparent" >
+          <div id="content">
+            <Topbar />
 
             <Container>
 
-    
-            <div className="container-fluid">
 
-           
+              <div className="container-fluid">
 
-            <div className="card shadow mb-4 bg-transparent border-1" style={{ border: "1px solid white" ,backdropFilter:'blur(3px)' }}>
-       
-                <div className="card-header py-3" style={{ border: "1px solid white" , backdropFilter:'blur(3px)' }}>
-                  <h6 className="m-0 font-weight-bold text-light">ADMINS </h6>
-                </div>
-                <div className="card-body bg-transparent">
-               
-                
-                <div className="row">
-                  <div className="col-lg-2 d-flex align-content-center justify-content-end text-light">
-                    Search here
+
+
+                <div className="card shadow mb-4 bg-transparent border-1" style={{ border: "1px solid white", backdropFilter: 'blur(3px)' }}>
+
+                  <div className="card-header py-3" style={{ border: "1px solid white", backdropFilter: 'blur(3px)' }}>
+                    <h6 className="m-0 font-weight-bold text-light">ADMINS </h6>
+                  </div>
+                  <div className="card-body bg-transparent">
+
+
+                    <div className="row align-items-center mb-3">
+                      <div className="col-12 col-md-2 text-light text-md-end">
+                        Search here
+                      </div>
+                      <div className="col-12 col-md-10">
+                        <input
+                          type="text"
+                          className="form-control bg-transparent"
+                          placeholder="Search..."
+                          value={searchText}
+                          onChange={handleSearch}
+                          style={{ color: 'white' }}
+                        />
+                      </div>
                     </div>
-                    <div className="col-lg-10">
-                    <input
-                        type="text"
-                        className="form-control bg-transparent"
-                        placeholder="Search..."
-                        value={searchText}
-                        onChange={handleSearch}
-                      style={{width:'30%' , color:'white'}} />
-                      
-                    </div>
-                
-                  </div> 
-                       <br/>
+
+                    <br />
                     {!isLoaded ? (
                       <div>Loading...</div>
                     ) : (
@@ -182,15 +182,15 @@ function AdminArea() {
                         />
                       </>
                     )}
-                
+
+                  </div>
                 </div>
+                <hr style={{ width: "100%" }} />
               </div>
-              <hr style={{ width: "100%" }} />
-            </div>
             </Container>
-     
+
           </div>
-        <Footer />
+          <Footer />
         </div>
       </div>
     </>

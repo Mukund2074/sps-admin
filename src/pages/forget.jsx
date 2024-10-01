@@ -24,11 +24,9 @@ export default function ForgotPass(){
 
     const handleSubmit = async (e)  => {
         e.preventDefault();
-        console.log(loginData)
 
         try{
             const responce = await ApiCall('POST' , 'admin/forget' , loginData);
-            console.log(responce.status);
 
             if(responce.status === 200)
             {
@@ -62,7 +60,6 @@ export default function ForgotPass(){
         }
         catch(err)
         {
-            console.log(err);
             toast.error('failed to connect', {
                 position: "top-center",
                 autoClose: 2000,

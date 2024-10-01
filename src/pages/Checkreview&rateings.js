@@ -4,6 +4,7 @@ import Topbar from "../common/Topbar";
 import { Container } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import ApiCall from "../ApiCall";
+import { toast } from "react-toastify";
 
 export default function Checkreviewrateings() {
   const [data, setData] = React.useState([]);
@@ -17,7 +18,7 @@ export default function Checkreviewrateings() {
 
       })
       .catch((error) => {
-        console.error('Error fetching feedback:', error);
+        toast.error('Error fetching feedback:', error);
         setIsLoaded(true); // Set isLoaded to true even in case of error
       });
   }, []);
@@ -67,21 +68,7 @@ export default function Checkreviewrateings() {
                     <h6 className="m-0 font-weight-bold text-light">FEEDBACK</h6>
                   </div>
                   <div className="card-body bg-transparent">
-                    <div className="row">
-                      <div className="col-lg-2 d-flex align-content-center justify-content-end text-light">
-                        Search here
-                      </div>
-                      <div className="col-lg-10">
-                        <input
-                          type="text"
-                          className="form-control bg-transparent"
-                          placeholder="Search..."
-
-                          style={{ width: '30%' }} />
-
-                      </div>
-
-                    </div>
+                   
                     <br />
                     {!isLoaded ? (
                       <div>Loading...</div>

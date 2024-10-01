@@ -34,7 +34,7 @@ export default function Sidebar() {
         id="accordionSidebar"
       >
         <span className="sidebar-brand d-flex align-items-center justify-content-center">
-          <div className="sidebar-brand-icon">
+          <div className="sidebar-brand-icon d-none d-lg-block">
             <i className="fa-solid fa-user-tie text-gray-400"></i>
           </div>
           <div className="text-gray-500 mx-3 overflow-x-visible" style={{ fontSize: '80%' }}>
@@ -83,6 +83,13 @@ export default function Sidebar() {
           <Link className="nav-link" to="/manageparkingarea">
             <i className="fa-solid fa-list-check"></i>
             <span>MANAGE PARKING AREA</span>
+          </Link>
+        </li>
+
+        <li className="nav-item bbttnn">
+          <Link className="nav-link" to="/rfidstore">
+            <i className="fa-solid fa-list-check"></i>
+            <span>MANAGE RFID STORE</span>
           </Link>
         </li>
 

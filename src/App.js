@@ -7,44 +7,54 @@ import UnderDevelopment from './common/Underdev';
 import UltrasonicTable from './pages/UltrasonicTable';
 import IRTable from './pages/IRTable';
 import RfidTable from './pages/RfidTable';
-import Manageparkingarea from './pages/manageparkingarea';
-import Bookingdata from './pages/Bookingdata';
-import Checkreviewrateings from './pages/Checkreview&rateings';
-import Addslots from './common/Addslots';
+import ManageParkingArea from './pages/manageparkingarea';
+import BookingData from './pages/Bookingdata';
+import CheckReviewRatings from './pages/Checkreview&rateings';
+import AddSlots from './common/Addslots';
 import Admin from './pages/AdminData';
 import UpdateArea from './pages/UpdateArea';
-import TotaldeviceData from './pages/TotalDevicesData';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import TotalDeviceData from './pages/TotalDevicesData';
 import RfidCardRequest from './pages/RfidCardRequest';
 import UserData from './pages/UserData';
 import GetComplaint from './pages/GetComplaint';
-import { useEffect, useState } from 'react';
-import CardApprove from './pages/CardAprove';
 import ForgotPass from './pages/forget';
-import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import RfidStore from './pages/RfidStore';
+
+// Centralized loading spinner component
+const LoadingSpinner = () => (
+  <div className="spinner-border" role="status">
+    <span className="visually-hidden">Loading...</span>
+  </div>
+);
+
+const ProtectedRoute = ({ element, isAuthenticated }) => {
+  return isAuthenticated ? element : <Navigate to="/" />;
+};
 
 function App() {
-
-  axios.defaults.withCredentials = true;
-  const [loading, setLoading] = useState(true); // New loading state
+  const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    try {
-      const token = localStorage.getItem('AUTH_TOKEN');
-      if (token) {
-        setIsAuthenticated(true);
-      }
-      setLoading(false);
+    const token = localStorage.getItem('AUTH_TOKEN');
+    const adminData = Cookies.get('adminData');
 
-    } catch (error) {
-
+    if (token && adminData) {
+      setIsAuthenticated(true);
+    } else {
+      toast.error('Authentication failed, please login again');
+      setIsAuthenticated(false);
     }
-  }, [isAuthenticated]);
+
+    setLoading(false);
+  }, []);
 
   if (loading) {
-    return null
+    return <LoadingSpinner />;
   }
 
   return (
@@ -53,24 +63,23 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
-
           <Route path="/forget" element={<ForgotPass />} />
-          <Route path="/Dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/" />} />
-          <Route path='/irtable' element={isAuthenticated ? <IRTable /> : <Navigate to="/" />} />
-          <Route path='/ultrasonictable' element={isAuthenticated ? <UltrasonicTable /> : <Navigate to="/" />} />
-          <Route path='/rfidtable' element={isAuthenticated ? <RfidTable /> : <Navigate to="/" />} />
-          <Route path='/manageparkingarea' element={isAuthenticated ? <Manageparkingarea /> : <Navigate to="/" />} />
-          <Route path='/bookingdata' element={isAuthenticated ? <Bookingdata /> : <Navigate to="/" />} />
-          <Route path='/reviewrateing' element={isAuthenticated ? <Checkreviewrateings /> : <Navigate to="/" />} />
-          <Route path='/addslots' element={isAuthenticated ? <Addslots /> : <Navigate to="/" />} />
-          <Route path='/updatearea/:id' element={isAuthenticated ? <UpdateArea /> : <Navigate to="/" />} />
-          <Route path='/admindata' element={isAuthenticated ? <Admin /> : <Navigate to="/" />} />
-          <Route path='/*' element={<UnderDevelopment />} />
-          <Route path="/totaldevicedata" element={isAuthenticated ? <TotaldeviceData /> : <Navigate to="/" />} />
-          <Route path='/rfidcardrequest' element={isAuthenticated ? <RfidCardRequest /> : <Navigate to="/" />} />
-          <Route path='/userdata' element={isAuthenticated ? <UserData /> : <Navigate to="/" />} />
-          <Route path='/complains' element={isAuthenticated ? <GetComplaint /> : <Navigate to="/" />} />
-          <Route path='/cardapprove' element={isAuthenticated ? <CardApprove /> : <Navigate to="/" />} />
+          <Route path="/Dashboard" element={<ProtectedRoute element={<Dashboard />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/irtable" element={<ProtectedRoute element={<IRTable />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/ultrasonictable" element={<ProtectedRoute element={<UltrasonicTable />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/rfidtable" element={<ProtectedRoute element={<RfidTable />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/manageparkingarea" element={<ProtectedRoute element={<ManageParkingArea />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/bookingdata" element={<ProtectedRoute element={<BookingData />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/reviewrateing" element={<ProtectedRoute element={<CheckReviewRatings />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/addslots" element={<ProtectedRoute element={<AddSlots />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/updatearea/:id" element={<ProtectedRoute element={<UpdateArea />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/admindata" element={<ProtectedRoute element={<Admin />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/totaldevicedata" element={<ProtectedRoute element={<TotalDeviceData />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/rfidcardrequest" element={<ProtectedRoute element={<RfidCardRequest />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/userdata" element={<ProtectedRoute element={<UserData />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/complains" element={<ProtectedRoute element={<GetComplaint />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/rfidstore" element={<ProtectedRoute element={<RfidStore />} isAuthenticated={isAuthenticated} />} />
+          <Route path="/*" element={<UnderDevelopment />} />
         </Routes>
       </BrowserRouter>
     </div>

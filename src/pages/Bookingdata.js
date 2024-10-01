@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import Spinner from 'react-bootstrap/Spinner';
 import ApiCall from "../ApiCall";
+import { toast } from "react-toastify";
 
 export default function BookingData() {
   const [booking, setBooking] = useState([]);
@@ -18,7 +19,7 @@ export default function BookingData() {
         setFilteredItems(data);
       })
       .catch((error) => {
-        console.error('Error fetching booking data:', error);
+        toast.error('Error fetching booking data:');
         setIsLoaded(true); // Mark as loaded even if there is an error
       });
   }, []);
@@ -28,7 +29,7 @@ export default function BookingData() {
   const handleSearch = (e) => {
     const searchText = e.target.value.toLowerCase();
     setSearchText(searchText);
-  
+
     const filteredData = booking.filter(row =>
       (row.Locality && row.Locality.toLowerCase().includes(searchText)) ||
       (row.Name && row.Name.toLowerCase().includes(searchText)) ||
@@ -38,15 +39,15 @@ export default function BookingData() {
       (typeof row.availableOnlineSlot === 'string' && row.availableOnlineSlot.toLowerCase().includes(searchText)) ||
       (typeof row.availablerfidSlot === 'string' && row.availablerfidSlot.toLowerCase().includes(searchText))
     );
-  
+
     setFilteredItems(filteredData);
-  
+
     // If the search text is empty, reset the filtered items to the original dataset
     if (searchText.trim() === '') {
       setFilteredItems(booking);
     }
   };
-  
+
 
 
   const columns1 = [
@@ -77,43 +78,40 @@ export default function BookingData() {
     },
     {
       name: "EXIT TIME",
-      selector: row =>  row.exitTime ?  new Date(row.exitTime).toLocaleString() : "Not Exited!",
+      selector: row => row.exitTime ? new Date(row.exitTime).toLocaleString() : "Not Exited!",
       // selector: row => row.exitTime,
       sortable: true
     },
   ];
 
   return (
-    <>
-   
-      <div className="card shadow mb-4 bg-transparent border-1" style={{ border: "1px solid white" ,backdropFilter:'blur(3px)' }}>
-        <div className="card-header py-3" style={{ border: "1px solid white" , backdropFilter:'blur(3px)' }}>
+      <div className="card shadow mb-4 bg-transparent border-1" style={{ border: "1px solid white", backdropFilter: 'blur(3px)' }}>
+        <div className="card-header py-3" style={{ border: "1px solid white", backdropFilter: 'blur(3px)' }}>
           <h6 className="m-0 font-weight-bold text-light">RFID BOOKING DATA</h6>
         </div>
         <div className="card-body bg-transparent">
-        <div className="row">
-                  <div className="col-lg-2 d-flex align-content-center justify-content-end text-light">
-                    Search here
-                    </div>
-                    <div className="col-lg-10">
-                    <input
-                        type="text"
-                        className="form-control bg-transparent"
-                        placeholder="Search..."
-                        value={searchText}
-                        onChange={handleSearch}
-                      style={{width:'30%' , color:'white'}} />
-                      
-                    </div>
-                
-                  </div> 
-          <br />
-          {!isLoaded ? (
-            <Spinner animation="border" variant="light" />
-          ) : (
-            <>
+          <div className="row align-items-center mb-3">
+            <div className="col-12 col-md-2 text-light text-md-end">
+              Search here
+            </div>
+            <div className="col-12 col-md-10">
+              <input
+                type="text"
+                className="form-control bg-transparent"
+                placeholder="Search..."
+                value={searchText}
+                onChange={handleSearch}
+                style={{ color: 'white' }}
+              />
+            </div>
+          </div>
+
+          <div className="text-center mb-3">
+            {!isLoaded ? (
+              <Spinner animation="border" variant="light" />
+            ) : (
               <DataTable
-                noHeader // Remove the DataTable header
+                noHeader
                 highlightOnHover
                 striped
                 columns={columns1}
@@ -123,32 +121,31 @@ export default function BookingData() {
                 customStyles={{
                   headRow: {
                     style: {
-                      backgroundColor: 'transparent', // Set header row background color
+                      backgroundColor: 'transparent',
                     },
                   },
                   rows: {
                     style: {
-                      backgroundColor: 'transparent', // Set rows background color
+                      backgroundColor: 'transparent',
                     },
                   },
                   headCells: {
                     style: {
-                      color: 'white', // Set header cell text color
+                      color: 'white',
                     },
                   },
                   pagination: {
                     style: {
-                      backgroundColor: 'transparent', // Set pagination background color
+                      backgroundColor: 'transparent',
                     },
                   },
                 }}
               />
-            </>
-          )}
+            )}
+          </div>
         </div>
-        
+        <hr style={{ width: "100%" }} />
       </div>
-      <hr style={{ width: "100%" }} />
-    </>
+
   );
 }

@@ -5,6 +5,7 @@ import Topbar from "../common/Topbar";
 import DataTable from "react-data-table-component";
 import { Container } from "react-bootstrap";
 import ApiCall from "../ApiCall";
+import { toast } from "react-toastify";
 
 function GetComplaint() {
   const [complain, setComplain] = useState([]);
@@ -12,26 +13,26 @@ function GetComplaint() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    ApiCall("GET" , "admin/complain")
-    .then((response) => {
+    ApiCall("GET", "admin/complain")
+      .then((response) => {
         setComplain(response.data.complaint); // Update data with response.data.feedbacks
         setIsLoaded(true);
-        
-    })
-    .catch((error) => {
-        console.error('Error fetching feedback:', error);
-        setIsLoaded(true); // Set isLoaded to true even in case of error
-    });
-}, []);
 
-//   const filteredItems = userdata.filter(
-//     (item) =>
-//       item.name.toLowerCase().includes(searchText.toLowerCase()) ||
-//       item.email.toLowerCase().includes(searchText.toLowerCase()) ||
-//       item.phoneNo.toLowerCase().includes(searchText.toLowerCase()) ||
-//       item.role.toLowerCase().includes(searchText.toLowerCase()) ||
-//       item.password.toLowerCase().includes(searchText.toLowerCase()) 
-//   );
+      })
+      .catch((error) => {
+        toast.error('Error fetching feedback:');
+        setIsLoaded(true); // Set isLoaded to true even in case of error
+      });
+  }, []);
+
+  //   const filteredItems = userdata.filter(
+  //     (item) =>
+  //       item.name.toLowerCase().includes(searchText.toLowerCase()) ||
+  //       item.email.toLowerCase().includes(searchText.toLowerCase()) ||
+  //       item.phoneNo.toLowerCase().includes(searchText.toLowerCase()) ||
+  //       item.role.toLowerCase().includes(searchText.toLowerCase()) ||
+  //       item.password.toLowerCase().includes(searchText.toLowerCase()) 
+  //   );
 
   const handleSearch = (e) => {
     setSearchText(e.target.value);
@@ -56,7 +57,7 @@ function GetComplaint() {
     },
     {
       name: "Message",
-      selector:row => row.complaint,
+      selector: row => row.complaint,
       sortable: true
     },
     {
@@ -68,7 +69,7 @@ function GetComplaint() {
 
   return (
     <>
-            <div id="wrapper" style={{ backgroundImage: 'url("https://t3.ftcdn.net/jpg/05/69/26/10/360_F_569261029_71L0qkdQoIAhyiVt6z9yJoFP3CFhmlvX.jpg")', backgroundSize: 'cover', backgroundAttachment: 'fixed' }}>
+      <div id="wrapper" style={{ backgroundImage: 'url("https://t3.ftcdn.net/jpg/05/69/26/10/360_F_569261029_71L0qkdQoIAhyiVt6z9yJoFP3CFhmlvX.jpg")', backgroundSize: 'cover', backgroundAttachment: 'fixed' }}>
         <Sidebar />
         <div id="content-wrapper" className="d-flex flex-column bg-transparent" >
           <div id="content">
@@ -80,24 +81,24 @@ function GetComplaint() {
                     <h6 className="m-0 font-weight-bold text-light">CHECK COMPLAINT</h6>
                   </div>
                   <div className="card-body bg-transparent">
-              
-                  <div className="row">
-                      <div className="col-lg-2 d-flex align-content-center justify-content-end text-light">
+
+                    <div className="row align-items-center mb-3">
+                      <div className="col-12 col-md-2 text-light text-md-end">
                         Search here
                       </div>
-                      <div className="col-lg-10">
+                      <div className="col-12 col-md-10">
                         <input
                           type="text"
                           className="form-control bg-transparent"
                           placeholder="Search..."
                           value={searchText}
                           onChange={handleSearch}
-                          style={{ width: '30%' }} />
-
+                          style={{ color: 'white' }}
+                        />
                       </div>
-
                     </div>
-                       <br/>
+
+                    <br />
                     {!isLoaded ? (
                       <div>Loading...</div>
                     ) : (
@@ -134,15 +135,15 @@ function GetComplaint() {
                         />
                       </>
                     )}
-              
+
+                  </div>
                 </div>
+                <hr style={{ width: "100%" }} />
               </div>
-              <hr style={{ width: "100%" }} />
-            </div>
             </Container>
-     
+
           </div>
-        <Footer />
+          <Footer />
         </div>
       </div>
     </>

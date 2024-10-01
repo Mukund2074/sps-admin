@@ -11,28 +11,65 @@ function RfidCardRequest() {
   const [data, setData] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [searchText, setSearchText] = useState('');
-  const [cardNumber, setCardNumber] = useState('');
-  const [datas, setDatas] = useState({
-    cardNumber: null,
-    balance: null
-  });
+  const [inputValues, setInputValues] = useState('');
+  const [rfid, setRfid] = useState([]);
+
+  useEffect(() => {
+    fetchCardRequests();
+    Getrfid();
+  }, []);
+
+
+  function Getrfid() {
+    ApiCall('GET', 'admin/rfidstore')
+      .then((response) => {
+        const availableRfids = response.data.RFID.filter(card => card.alloted === false);
+        setRfid(availableRfids);
+        setIsLoaded(true);
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 404) {
+          toast.error("No RFIDs found");
+          setIsLoaded(true);
+        } else {
+          toast.error("Failed to fetch RFIDs");
+          setIsLoaded(true);
+        }
+      });
+  }
+
 
   const fetchCardRequests = () => {
     ApiCall('GET', 'admin/getPendingCardRequest')
-    .then((response) => {
-      setData(response.data.cardRequests);
-     
-      setIsLoaded(true);
-    });
+      .then((response) => {
+        setData(response.data.cardRequests);
+        setIsLoaded(true);
+      });
   };
 
   const handleSearch = (e) => {
     setSearchText(e.target.value);
   };
 
-  const handleApprove = async (id, status) => {
+  const handleChange = (e, id, field) => {
+    const { value } = e.target;
+    setInputValues((prev) => ({
+      ...prev,
+      [id]: {
+        ...prev[id],
+        [field]: value,
+      },
+    }));
+  };
+
+
+
+  const handleApprove = async (id) => {
+
+    const { cardNumber, balance } = inputValues[id] || {};
+    const payload = { requestId: id, cardNumber, balance };
     try {
-      await ApiCall("POST", "admin/approveCardRequest", { requestId: id, status: status, cardNumber: datas.cardNumber, balance: datas.balance }).then((response) => {
+      await ApiCall("POST", "admin/approveCardRequest", { ...payload }).then((response) => {
         if (response.data.success) {
           toast.success(response.data.message, {
             position: "top-center",
@@ -48,17 +85,15 @@ function RfidCardRequest() {
         }
       });
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
   const handleDelete = async (_id) => {
     try {
-      const response = await ApiCall('DELETE', 'admin/deleterfidrequest', { _id });
-      const { message } = response.data.DeleteData;
-      console.log(message);
+      await ApiCall('DELETE', `admin/deleterfidrequest/${_id}`);
       fetchCardRequests();
-      toast.error(' Deleted Successfully ', {
+      toast.success(' Deleted Successfully ', {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -70,21 +105,10 @@ function RfidCardRequest() {
 
       });
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
 
-  useEffect(() => {
-    fetchCardRequests();
-  }, []);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setDatas((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
 
   const formattedData = data.map((requestData) => ({
     id: requestData._id,
@@ -92,79 +116,46 @@ function RfidCardRequest() {
     email: requestData.email,
     phoneNo: requestData.phoneNo,
     address: requestData.address,
-    vehicleNo: requestData.vehicleNo,
-    aadhaarNo: requestData.aadhaarNo,
     status: requestData.status,
-    timestamp: new Date(requestData.timestamp).toLocaleString(),
     action: (
       <>
-        <button className="btn btn-primary" onClick={() => handleApprove(requestData._id)} style={{ margin: '2px' }}>Approve</button> <br/>
-        <button className="btn btn-danger" onClick={() => handleDelete(requestData._id)} style={{ margin: '2px' }}>Delete</button>
+        <button className="btn btn-primary m-1" onClick={() => handleApprove(requestData._id)}>Approve</button><br/>
+        <button className="btn btn-danger m-1" onClick={() => handleDelete(requestData._id)}>Delete</button>
       </>
     ),
-    input: (
+    cardInput: (
+      <select
+        className="p-2 mx-2 w-100"
+        onChange={(e) => handleChange(e, requestData._id, 'cardNumber')}
+      >
+        <option value="">Select card number</option>
+        {rfid.map((item) => (
+          <option key={item._id} value={item.id}>{item.id}</option>
+        ))}
+      </select>
+    ),
+    balanceInput: (
       <input
-        type="text"
-        value={cardNumber}
-        onChange={(e) => setCardNumber(e.target.value)}
-        placeholder="Enter card number"
-        style={{ marginBottom: '5px' }}
+        type="number"
+        onChange={(e) => handleChange(e, requestData._id, 'balance')}
+        className="bg-transparent mx-2 p-2 w-100"
+        style={{ color : 'white'}}
+        placeholder="Enter balance"
       />
     ),
   }));
 
   const columns = [
-    {
-      name: 'SR NO',
-      selector: (row, index) => index + 1,
-      sortable: true
-    },
-    {
-      name: "Email",
-      selector: row => row.email,
-      sortable: true
-    },
-    {
-      name: "AADHAAR NO",
-      selector: row => row.aadhaarNo,
-      sortable: true
-    },
-    {
-      name: "CITY",
-      selector: row => row.address,
-      sortable: true
-    },
-    {
-      name: "VEHICLE NO",
-      selector: row => row.vehicleNo,
-      sortable: true
-    },
-    {
-      name: "PHONE NO",
-      selector: row => row.phoneNo,
-      sortable: true
-    },
-    {
-      name: "STATUS",
-      selector: row => row.status,
-      sortable: true
-    },
-    {
-      name: "ADD CARD NO",
-      selector: row => <input type="text" onChange={handleChange} name="cardNumber" className="bg-transparent" style={{ color: "white" }} />,
-      sortable: true
-    },
-    {
-      name: "BALANCE",
-      selector: row => <input type="number" onChange={handleChange} name="balance" className="bg-transparent" style={{ color: "white" }} />,
-      sortable: true
-    },
-    {
-      name: "ACTION",
-      selector: row => row.action,
-      sortable: true
-    }
+    { name: 'SR NO', selector: (row, index) => index + 1, sortable: true },
+    { name: "Email", selector: row => row.email, sortable: true },
+    { name: "CITY", selector: row => row.address, sortable: true },
+    { name: "PHONE NO", selector: row => row.phoneNo, sortable: true },
+    { name: "STATUS", selector: row => row.status, sortable: true },
+    { name: "ADD CARD NO", cell: row => row.cardInput, sortable: true },
+    { name: "BALANCE", cell: row => row.balanceInput, sortable: true },
+    { name: "ACTION", selector: row => row.action, sortable: true },
   ];
+
 
   return (
     <>
@@ -179,20 +170,22 @@ function RfidCardRequest() {
                   <h6 className="m-0 font-weight-bold text-light">RFID CARD REQUESTS</h6>
                 </div>
                 <div className="card-body bg-transparent">
-                  <div className="row">
-                    <div className="col-lg-2 d-flex align-content-center justify-content-end text-light">
+                  <div className="row align-items-center mb-3">
+                    <div className="col-12 col-md-2 text-light text-md-end">
                       Search here
                     </div>
-                    <div className="col-lg-10">
+                    <div className="col-12 col-md-10">
                       <input
                         type="text"
                         className="form-control bg-transparent"
                         placeholder="Search..."
                         value={searchText}
                         onChange={handleSearch}
-                        style={{ width: '30%' }} />
+                        style={{ color: 'white' }}
+                      />
                     </div>
                   </div>
+
                   {!isLoaded ? (
                     <div>Loading...</div>
                   ) : (
@@ -201,7 +194,7 @@ function RfidCardRequest() {
                         highlightOnHover
                         striped
                         columns={columns}
-                        data={formattedData}
+                        data={formattedData.filter(row => row.name.includes(searchText) || row.email.includes(searchText))}
                         pagination
                         theme="dark"
                         customStyles={{

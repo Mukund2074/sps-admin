@@ -10,7 +10,6 @@ import ApiCall from '../ApiCall';
 export default function UpdateArea() {
 
   const location = useLocation();
-  console.log(location.state);
   const navigate = useNavigate();
 
   const [update, setUpdate] = useState({
@@ -32,7 +31,6 @@ export default function UpdateArea() {
       [name]: (name === "Reserved" || name === "Genral") ? parseInt(value) : value
     }));
   
-    console.log("update: ", update);
   };
   
 
@@ -41,7 +39,6 @@ export default function UpdateArea() {
   
     try {
       const response = await ApiCall('PUT', `admin/updatearea/${location.state.value._id}`, update); 
-      console.log("data for update: ", update);
   
       if (response.data.success) {
         toast.success('UPDATE Successfully');
@@ -50,7 +47,7 @@ export default function UpdateArea() {
         toast.error('Something Went Wrong');
       }
     } catch (err) {
-      console.log(err);
+      toast.error('Something Went Wrong');
     }
   };
   
